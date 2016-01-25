@@ -110,7 +110,7 @@ public class testCandidat {
 
 	@Test
 	public void testToString() {
-		System.out.println("Pas besoin de tester");
+		System.out.println("ça fonctionne?");
 	}
 
 }
