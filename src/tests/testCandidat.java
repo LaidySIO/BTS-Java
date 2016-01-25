@@ -9,7 +9,7 @@ import inscriptions.Inscriptions;
 import inscriptions.Personne;
 
 /*
- * Récapitulatif jUnit:
+ * Récapitulatif des assert jUnit les plus utilisés:
  * assertEquals() Vérifier l'égalité de deux valeurs de type primitif ou objet (en utilisant la méthode equals()). 
  *    Il existe de nombreuses surcharges de cette méthode pour chaque type primitif, pour un objet de type Object et 
  *    pour un objet de type String.
@@ -28,6 +28,7 @@ import inscriptions.Personne;
  * assertTrue()
  * Vérifier que la valeur fournie en paramètre est vraie
  * 
+ * Pour le reste des assert : http://junit.sourceforge.net/javadoc/org/junit/Assert.html
  */
 
 
