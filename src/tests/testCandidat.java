@@ -36,81 +36,65 @@ import inscriptions.Personne;
 public class testCandidat {
 	
 	Inscriptions inscriptions = Inscriptions.getInscriptions();
-	Personne pers = inscriptions.createPersonne("Jacqueline", "Ferdinand", "test@test.com");
-	Personne persBis = inscriptions.createPersonne("Jacqueline", "Ferdinand", "test@test.com");
+	Personne personne = inscriptions.createPersonne("Jacqueline", "Ferdinand", "test@test.com");
+	Personne people = inscriptions.createPersonne("Jacqueline", "Ferdinand", "test@test.com");
 	
-	@Test
-	public void candidatTest() {
-		assertNotNull("Instance créée", pers);
-	}
-
+	//test GetNom
 	@Test
 	public void testGetNom() {
-		assertEquals("Jacqueline", pers.getNom());
+		assertEquals("Jacqueline", personne.getNom());
 	}
 
-	/*
-	 * Le nom du candidat.
-	 */
-	
+	//Test SetNom
 	@Test
 	public void testSetNom() {
-		pers.setNom("John");
-		assertEquals("John", pers.getNom());
+		personne.setNom("John");
+		assertEquals("John", personne.getNom());
 	}
 
-	/*
-	 * Les compétitions.
-	 */
-	
-	@Test
-	public void testGetCompetitions() {
-		Set<Competition> Competitions = pers.getCompetitions();
-		Competition first = inscriptions.createCompetition("Concours de saut en travers", null, false);
-		Competition second = inscriptions.createCompetition("Concours de saut en travers", null, false);
-		first.add(pers);
-		second.add(pers);
-		
-		assertEquals(Competitions, pers.getCompetitions());
-	}
 
+	//Test Add
 	@Test
 	public void testAdd() {
-		Set<Competition> Competitions = pers.getCompetitions();
-		Competition testCompet = inscriptions.createCompetition("Concours de saut en travers", null, false);
-		testCompet.add(pers);
+		Set<Competition> Competitions = personne.getCompetitions();
+		Competition testCompetition = inscriptions.createCompetition("Concours de saut en travers", null, false);
+		testCompetition.add(personne);
 		
-		assertTrue(Competitions.contains(testCompet));
+		assertTrue(Competitions.contains(testCompetition));
 	}
-
+	
+	//TestRemove, comme pour Add mais on retire la donnée ajoutée
 	@Test
 	public void testRemove() {
-		Set<Competition> Competitions = pers.getCompetitions();
-		Competition testCompet = inscriptions.createCompetition("Concours de saut en travers", null, false);
-		testCompet.add(pers);
-		testCompet.remove(pers);
+		Set<Competition> Competitions = personne.getCompetitions();
+		Competition testCompetition = inscriptions.createCompetition("Concours de saut en travers", null, false);
+		testCompetition.add(personne);
+		testCompetition.remove(personne);
 		
-		assertFalse(Competitions.contains(testCompet));
+		assertFalse(Competitions.contains(testCompetition));
 	}
 
+	//Test Delete, comme précédemment, mais on efface la donnée ajoutée
 	@Test
 	public void testDelete() {
-		Set<Competition> Competitions = pers.getCompetitions();
-		Competition testCompet = inscriptions.createCompetition("Concours du lapin le plus grand", null, false);
-		testCompet.add(pers);
-		pers.delete();
+		Set<Competition> Competitions = personne.getCompetitions();
+		Competition testCompetition = inscriptions.createCompetition("Concours de saut en travers", null, false);
+		testCompetition.add(personne);
+		personne.delete();
 	
 		assertTrue(Competitions.isEmpty());
 	}
-
+	
+	//Test Compare
 	@Test
 	public void testCompareTo() {
-		assertTrue(pers.compareTo(persBis) == 0);
+		assertTrue(personne.compareTo(people) == 0);
 	}
 
+	//Test String
 	@Test
 	public void testToString() {
-		System.out.println("ça fonctionne?");
+		// Autre méthode??
 	}
 
 }
