@@ -36,8 +36,8 @@ import inscriptions.*;
 public class testCompetition {
 
 	Inscriptions inscriptions = Inscriptions.getInscriptions();
-	Competition competition = inscriptions.createCompetition("Balalaia", false);
-	Competition competrition = inscriptions.createCompetition("Visionnage de Cassettes", true);
+	Competition competition = inscriptions.createCompetition("Balalaia", LocalDate.now(), false);
+	Competition competrition = inscriptions.createCompetition("Visionnage de Cassettes", LocalDate.now(), true);
 	Personne personne = inscriptions.createPersonne("Maria", "pilaf", "test@test.com");
 	
 	//Test GetNom

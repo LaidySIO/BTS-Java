@@ -43,8 +43,8 @@ public class testPersonne {
 	// Test SetPrenom
 	@Test
 	public void testSetPrenom() {
-		personne.setPrenom("LaPoulette");
-		assertEquals("LaPoulette", personne.getPrenom());
+		personne.setPrenom("LaPoulette"); // On ajoute une personne appellée "LaPoulette"
+		assertEquals("LaPoulette", personne.getPrenom()); // On vérifie
 	}
 
 	// Test GetMail
