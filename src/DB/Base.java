@@ -90,18 +90,7 @@ public class Base {
 			Statement smt = con.createStatement() ;
 			ResultSet rs = smt.executeQuery(sql) ;
 			return rs;
-			//String[] noms = getNomsColonnes(rs); 
-			//for(int i = 0; i < noms.length; i++){ 
-			//while (rs.next()){
-			   //System.out.println(rs.getString(1)+ " " + rs.getString(2)); 
-				//return (rs.getString(1)+ " " + rs.getString(2));
-				//}
-			//}
-
-			//while (rs.next()) {
-
-				//return 
-			//}
+			
 		}
 		catch (Exception e) {
 		// gestion des exceptions
