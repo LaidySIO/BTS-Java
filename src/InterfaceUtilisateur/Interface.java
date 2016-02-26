@@ -1,5 +1,6 @@
 package InterfaceUtilisateur;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,32 +116,45 @@ public class Interface {
 	}
 
 	static Option getOptionAfficherPersonne() {
+		
 		Option afficherCandidats = new Option("Afficher les personnes", "AP",
 				getActionAfficherPersonne());
+		
 		return afficherCandidats;
 	}
 
 	static Action getActionAfficherPersonne() {
+		
 		return new Action() {
 			public void optionSelectionnee() {
+				
 				int i = 0;
 				int count = 1;
 				for (inscriptions.Candidat c : inscript.getCandidats()) {
 					if (c instanceof Personne) {
+						
 						System.out.println(count + "- " + c.getNom() + " "
 								+ ((Personne) c).getPrenom());
 						System.out.println("\tCOMPETITIONS:"
 								+ c.getCompetitions() + "\n");
 						System.out.println("\tEQUIPES:"
 								+ NomEquipes((Personne) c) + "\n");
+						System.out.println(inscriptions.Personne.aff());
 						count++;
 						i++;
+						
 					}
+					
 				}
+				
 				if (i == 0)
 					System.out.println("\tAucune personne enregistrée!!\n");
 			}
+		
 		};
+		
+		
+		
 	}
 
 	static Option getOptionAfficherEquipe() {

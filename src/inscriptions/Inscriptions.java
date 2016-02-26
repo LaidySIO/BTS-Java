@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -37,6 +39,8 @@ public class Inscriptions implements Serializable
 	
 	public SortedSet<Competition> getCompetitions()
 	{
+		String afficheComp= "Select * from Competition;";
+		DB.Base.connexionQuery(afficheComp);
 		return Collections.unmodifiableSortedSet(competitions);
 	}
 	
@@ -62,6 +66,8 @@ public class Inscriptions implements Serializable
 	public Competition createCompetition(String nom, 
 			LocalDate dateCloture, boolean enEquipe)
 	{
+		String createComp  = "Insert into competition (nomCompetition,dateCloture,enEquipe) values ('"+ nom + "','"+ dateCloture+"','"+enEquipe+"');";
+		DB.Base.connexionExe(createComp);
 		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
 		competitions.add(competition);
 		return competition;
@@ -79,9 +85,12 @@ public class Inscriptions implements Serializable
 	
 	public Personne createPersonne(String nom, String prenom, String mail)
 	{
+		String createP  = "Insert into Personne (nomPersonne,prenomPersonne,mail) values ('"+ nom +"','"+prenom+"','"+ mail + "');";
+		DB.Base.connexionExe(createP);
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
 		return personne;
+		
 	}
 	
 	/**
@@ -95,6 +104,8 @@ public class Inscriptions implements Serializable
 	
 	public Equipe createEquipe(String nom)
 	{
+		String createE  = "Insert into Equipe (nomEquipe) values ('"+ nom + "');";
+		DB.Base.connexionExe(createE);
 		Equipe equipe = new Equipe(this, nom);
 		candidats.add(equipe);
 		return equipe;
@@ -107,6 +118,9 @@ public class Inscriptions implements Serializable
 	
 	void remove(Competition competition)
 	{
+		String removeC  = "delete from competition where dateCloture = "+ competition.getDateCloture() 
+				+" and nom = '"+competition.getNom()+"';";
+		DB.Base.connexionExe(removeC);
 		competitions.remove(competition);
 	}
 	
@@ -117,6 +131,8 @@ public class Inscriptions implements Serializable
 	
 	void remove(Candidat candidat)
 	{
+		String removeCand  = "delete from competition where nom = "+candidat.getNom()+"';";
+		DB.Base.connexionExe(removeCand);
 		candidats.remove(candidat);
 	}
 	
@@ -128,6 +144,7 @@ public class Inscriptions implements Serializable
 	
 	public static Inscriptions getInscriptions()
 	{
+		
 		
 		if (inscriptions == null)
 		{

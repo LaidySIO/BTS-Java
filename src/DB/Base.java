@@ -64,6 +64,7 @@ public class Base {
 
 	public static ResultSet connexionQuery (String req)
 	{
+		Connection con = null;
 		try {
 			// chargement de la classe par son nom
 			Class c = Class.forName("com.mysql.jdbc.Driver") ;
@@ -83,7 +84,7 @@ public class Base {
 			String nomConnexion =  "root" ;  // dépend du contexte
 			String motDePasse =  "donald971" ;  // dépend du contexte
 			// Connexion
-			Connection con = DriverManager.getConnection(
+			con = DriverManager.getConnection(
 					conString, nomConnexion, motDePasse) ;
 			// Envoi d’un requête générique
 			String sql = req  ;
@@ -101,13 +102,19 @@ public class Base {
 		
 		finally
 		{
-			return null;
+			try {
+				con.close();
+			} catch (SQLException e) {
+				
+				
+			}
 		}
+		return null;
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		inscriptions.Inscriptions test1 = new inscriptions.Inscriptions();
+		inscriptions.Inscriptions test1 = inscriptions.Inscriptions.getInscriptions();
 		//inscriptions.Personne test = new Personne(); 
 		String nom = "TITI";
 		Base.connexionQuery("Select * from candidat ;");
