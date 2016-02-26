@@ -1,11 +1,14 @@
 package DB;
 
+import inscriptions.Competition;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.SortedSet;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
@@ -66,27 +69,27 @@ public class Base {
 	{
 		Connection con = null;
 		try {
-			// chargement de la classe par son nom
+				// chargement de la classe par son nom
 			Class c = Class.forName("com.mysql.jdbc.Driver") ;
 			Driver pilote = (Driver)c.newInstance() ;
-			// enregistrement du pilote auprès du DriverManager
+				// enregistrement du pilote auprès du DriverManager
 			DriverManager.registerDriver(pilote);
-			// Protocole de connexion
+				// Protocole de connexion
 			String protocole =  "jdbc:mysql:" ;
-			// Adresse IP de l’hôte de la base et port
+				// Adresse IP de l’hôte de la base et port
 			String ip =  "localhost" ;  // dépend du contexte
 			String port =  "3306" ;  // port MySQL par défaut
-			// Nom de la base ;
+				// Nom de la base ;
 			String nomBase =  "inscriptions" ;  // dépend du contexte
-			// Chaîne de connexion
+				// Chaîne de connexion
 			String conString = protocole +  "//" + ip +  ":" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
-			// Identifiants de connexion et mot de passe
+				// Identifiants de connexion et mot de passe
 			String nomConnexion =  "root" ;  // dépend du contexte
 			String motDePasse =  "donald971" ;  // dépend du contexte
-			// Connexion
+				// Connexion
 			con = DriverManager.getConnection(
 					conString, nomConnexion, motDePasse) ;
-			// Envoi d’un requête générique
+				// Envoi d’un requête générique
 			String sql = req  ;
 			Statement smt = con.createStatement() ;
 			ResultSet rs = smt.executeQuery(sql) ;
@@ -104,7 +107,7 @@ public class Base {
 		{
 			try {
 				con.close();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				
 				
 			}

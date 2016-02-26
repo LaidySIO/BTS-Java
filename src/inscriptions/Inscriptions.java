@@ -27,11 +27,19 @@ public class Inscriptions implements Serializable
 	
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
+	
+	private final static boolean db = true;
 
 	private Inscriptions()
 	{
+//		this.db = true;
 	}
 	
+	public void setdb (boolean db)
+	{
+		System.out.println("chgt de valeur");
+//		this.db = db;
+	}
 	/**
 	 * Retourne les compétitions.
 	 * @return
@@ -39,10 +47,29 @@ public class Inscriptions implements Serializable
 	
 	public SortedSet<Competition> getCompetitions()
 	{
-		String afficheComp= "Select * from Competition;";
-		DB.Base.connexionQuery(afficheComp);
-		return Collections.unmodifiableSortedSet(competitions);
+		System.out.println("db = " + db);
+		if (db){
+		String recupComp= "Select * from Competition;";
+		ResultSet result = DB.Base.connexionQuery(recupComp);
+		SortedSet<Competition> tab = new TreeSet<Competition>();
+			try{
+					while (result.next()){
+						Competition c = new Competition(this, result.getString(1), LocalDate.parse(result.getString(2)), result.getBoolean(3));
+						tab.add(c);
+					}
+					return tab;	
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			return tab;
+		}
+		else
+		{
+			return Collections.unmodifiableSortedSet(competitions);
+		}
 	}
+	
 	
 	/**
 	 * Retourne tous les candidats (personnes et équipes confondues).
