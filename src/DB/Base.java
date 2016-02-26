@@ -1,5 +1,7 @@
 package DB;
 
+import inscriptions.Inscriptions;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -107,7 +109,7 @@ public class Base {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		inscriptions.Inscriptions test1 = new inscriptions.Inscriptions();
+		inscriptions.Inscriptions test1 = Inscriptions.getInscriptions();
 		//inscriptions.Personne test = new Personne(); 
 		String nom = "TITI";
 		Base.connexionQuery("Select * from candidat ;");
