@@ -136,7 +136,7 @@ public class Req {
 			smt = con.createStatement();
 			rs =smt.executeQuery(req);
 			while (rs.next())
-				inscriptions.createCompetition(rs.getString("nomCompetition"), rs.getDate("dateCloture"),rs.getBoolean("enEquipe"));
+				inscriptions.createCompetition(rs.getString("nomCompetition"), rs.getDate("dateCloture").toLocalDate(),rs.getBoolean("enEquipe"));
 		}
 		catch (Exception e) {
 			// gestion des exceptions
