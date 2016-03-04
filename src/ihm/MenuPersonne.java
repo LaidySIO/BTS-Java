@@ -24,14 +24,18 @@ public class MenuPersonne extends JFrame {
         this.setVisible(true);
         this.setTitle("MENU PERSONNE");
         this.setSize(700, 600);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new FlowLayout());
-        List<Personne> personnes = new ArrayList<>(Inscriptions.getInscriptions(true).getPersonnes());
+        List<Personne> personnes = new ArrayList<>(Inscriptions.getInscriptions(false).getPersonnes());
         
         TableModel dataModel = new AbstractTableModel() {
             public int getColumnCount() { return 3; }
             public int getRowCount() { return personnes.size();}
             public Object getValueAt(int row, int col){Personne personne = personnes.get(row);
+            if (personne == null)
+            {
+            	System.out.println("Achtung ! Une personne nulle !");
+            	return null;
+            }
             switch(col)
             	{
             		case 0 : return personne.getPrenom();

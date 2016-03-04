@@ -81,18 +81,18 @@ public class Personne extends Candidat
 	
 	public String getMail()
 	{
-		String affichemail = "Select mail from Personne; "
-				+ "where prenomPersonne ='"+ prenom+"';";
-		ResultSet rs = DB.Base.connexionQuery(affichemail);
-		try {
-			while(rs.next()) {
-				return  rs.getString("mail");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println( e.getMessage() );
-		}
+//		String affichemail = "Select mail from Personne; "
+//				+ "where prenomPersonne ='"+ prenom+"';";
+//		ResultSet rs = DB.Base.connexionQuery(affichemail);
+//		try {
+//			while(rs.next()) {
+//				return  rs.getString("mail");
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println( e.getMessage() );
+//		}
 		return mail;
 	}
 
