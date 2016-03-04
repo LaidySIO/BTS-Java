@@ -43,10 +43,10 @@ public class Base {
 				String ip =  "localhost" ;  
 				String port =  "3306" ; 
 			
-				String nomBase =  "inscriptions" ;  
+				String nomBase =  "inscription" ;  
 				String conString = protocole +  "//" + ip +  ":" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
 				String nomConnexion =  "root" ;  
-				String motDePasse =  "donald971" ;
+				String motDePasse =  "" ;
 				con = DriverManager.getConnection(
 						conString, nomConnexion, motDePasse) ;
 					

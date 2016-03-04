@@ -1,7 +1,5 @@
 package InterfaceUtilisateur;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,8 @@ import inscriptions.*;
 
 public class Interface {
 
-	public static final Inscriptions inscript = Inscriptions.getInscriptions();
+	static boolean db = true;
+	public static final Inscriptions inscript = Inscriptions.getInscriptions(db);
 	public static ArrayList<String> a;
 
 	/**
@@ -208,13 +207,6 @@ public class Interface {
 				modifMembre.start();
 
 			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
-
 		};
 	}
 
@@ -327,12 +319,6 @@ public class Interface {
 
 			}
 
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
-
 		};
 	}
 
@@ -371,11 +357,6 @@ public class Interface {
 				System.out.println("Le membre a bien été enlevé de l'équipe");
 			}
 
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
 		};
 	}
 
@@ -404,12 +385,6 @@ public class Interface {
 			@Override
 			public void elementSelectionne(int indice, Personne element) {
 				equipe.add(element);
-			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
 			}
 		};
 	}
@@ -440,12 +415,6 @@ public class Interface {
 				System.out.println("\tle membre " + element.getNom()
 						+ " a bien été supprimé\n");
 
-			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
 			}
 		};
 	}
@@ -479,12 +448,6 @@ public class Interface {
 				element.delete();
 				System.out.println(element + " a bien été supprimée!\n");
 
-			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
 			}
 
 		};
@@ -585,12 +548,6 @@ public class Interface {
 
 			}
 
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
-
 		};
 	}
 
@@ -609,7 +566,7 @@ public class Interface {
 	}
 
 	static ActionListe<Competition> getActionListerCompetitions() {
-		DB.Req.chargeEquipes();
+		//DB.Req.chargeEquipes();
 		return new ActionListe<Competition>() {
 			
 			@Override
@@ -643,12 +600,6 @@ public class Interface {
 							.println("\tCette competition  se déroule individuellement, veuillez choisir la personne à inscrire\n");
 					MenuInscrirePersonne(element).start();
 				}
-			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
 			}
 		};
 	}
@@ -692,13 +643,6 @@ public class Interface {
 				}
 
 			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
-
 		};
 	}
 
@@ -739,12 +683,6 @@ public class Interface {
 							+ comp.getNom() + "\n");
 
 				}
-			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
 			}
 		};
 	}

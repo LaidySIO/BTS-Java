@@ -63,9 +63,8 @@ public class Req {
 
 
 
-	public static void chargeEquipes()
+	public static void chargeEquipes(Inscriptions inscriptions)
 	{
-		Inscriptions inscriptions = Inscriptions.getInscriptions();
 		try {
 			req = "Select * from Equipe;";
 			con = DB.Base.connexion();

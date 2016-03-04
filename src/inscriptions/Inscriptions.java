@@ -32,9 +32,9 @@ public class Inscriptions implements Serializable
 	
 	private Inscriptions(boolean db)
 	{
-		this.db = db;
-		if (db)
-			Req.chargeEquipes();
+		Inscriptions.db = db;
+		if(db)
+			Req.chargeEquipes(this);
 	}
 	
 	public void setdb (boolean db)
@@ -207,15 +207,17 @@ public class Inscriptions implements Serializable
 	 * @return l'unique objet de type {@link Inscriptions}.
 	 */
 	
-	public static Inscriptions getInscriptions()
+	public static Inscriptions getInscriptions(boolean db)
 	{
-		
-		
 		if (inscriptions == null)
 		{
-			inscriptions = readObject();
-			if (inscriptions == null)
-				inscriptions = new Inscriptions(db);
+			if (!db)
+				inscriptions = readObject();
+			else 
+			{
+				if (inscriptions == null)
+					inscriptions = new Inscriptions(db);
+			}
 		}
 		return inscriptions;
 	}
@@ -285,7 +287,7 @@ public class Inscriptions implements Serializable
 	
 	public static void main(String[] args)
 	{
-		Inscriptions inscriptions = Inscriptions.getInscriptions();
+		Inscriptions inscriptions = Inscriptions.getInscriptions(false);
 		Competition flechettes = inscriptions.createCompetition("Mondial de fléchettes", null, false);
 		Personne tony = inscriptions.createPersonne("Tony", "Dent de plomb", "azerty"), 
 				boris = inscriptions.createPersonne("Boris", "le Hachoir", "ytreza");
