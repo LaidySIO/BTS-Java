@@ -41,7 +41,7 @@ public class Req {
 
 	public static void addEqui(String nom)
 	{
-		String createE  = "Insert into Personne (nomPersonne,prenomPersonne,mail) "
+		String createE  = "Insert into Equipe (nomEquipe) "
 				+ "values ('"+ nom +"');";
 		Base.connexionExe(createE);
 	}
@@ -52,8 +52,34 @@ public class Req {
 				+ "values ('"+ nom +"','"+dateCloture+"','"+ enEquipe + "');";
 		Base.connexionExe(createC);
 	}
+	
+	////////////////////////////////
+	
+	
+	public static void suppPers(String nom, String prenom,String mail)
+	{
+		String suppP  = "Delete from Personne where nomPersonne = '"+ nom + "') and prenom = '"+ prenom +"';";
+		Base.connexionExe(suppP);
+	}
+	
+	public static void suppComp(String nom, LocalDate dateCloture, boolean enEquipe)
+	{
+		String suppComp  = "Delete from Competition where nomCompetition = '"+ nom + "') and dateClotureprenom = '"+ dateCloture +"';";
+		Base.connexionExe(suppComp);
+	}
+	
+	public static void suppCand(String nom)
+	{
+		String suppC  = "Delete from Candidat where nom = '"+ nom + "';";
+		Base.connexionExe(suppC);
+	}
 
-
+//	public static void addCand(String nom)
+//	{
+//		String createCand  = "Insert into Candidat (nom) "
+//				+ "values ('"+ nom +"');";
+//		Base.connexionExe(createCand);
+//	}
 
 
 
@@ -79,37 +105,81 @@ public class Req {
 			System.out.println( e.getMessage() );
 		}
 	}
-	public static ArrayList<String> affEqui() throws SQLException
+		
+	public static void chargePersonnes()
 	{
-		ArrayList<String> a = new ArrayList<>();
+		Inscriptions inscriptions = Inscriptions.getInscriptions();
 		try {
-			req = "Select * from Equipe;";
-			String b;
+			req = "Select * from personne;";
 			con = DB.Base.connexion();
 			smt = con.createStatement();
 			rs =smt.executeQuery(req);
-
-
 			while (rs.next())
 			{
-				b = rs.getString("nomEquipe");
-				a.add(b);
-
+				System.out.println("coucou :!!!!!!!!!!");
+				inscriptions.createPersonne(rs.getString("nomPersonne"), rs.getString("pernomPersonne"),rs.getString("mail"));
 			}
-
-			//			for (String value : a)
-			//		{
-			//			System.out.println(value);
-			//		}	
+		}	
+		catch (Exception e) {
+			// gestion des exceptions
+			System.out.println( e.getMessage() );
+		}
+	}
+	
+	
+	public static void chargeCompet()
+	{
+		Inscriptions inscriptions = Inscriptions.getInscriptions();
+		try {
+			req = "Select * from Competition;";
+			con = DB.Base.connexion();
+			smt = con.createStatement();
+			rs =smt.executeQuery(req);
+			while (rs.next())
+				inscriptions.createCompetition(rs.getString("nomCompetition"), rs.getDate("dateCloture"),rs.getBoolean("enEquipe"));
 		}
 		catch (Exception e) {
 			// gestion des exceptions
 			System.out.println( e.getMessage() );
 		}
-		return a;
-
-
 	}
+	
+	
+	
+	
+	
+	
+//	public static ArrayList<String> affEqui() throws SQLException
+//	{
+//		ArrayList<String> a = new ArrayList<>();
+//		try {
+//			req = "Select * from Equipe;";
+//			String b;
+//			con = DB.Base.connexion();
+//			smt = con.createStatement();
+//			rs =smt.executeQuery(req);
+//
+//
+//			while (rs.next())
+//			{
+//				b = rs.getString("nomEquipe");
+//				a.add(b);
+//
+//			}
+//
+//			//			for (String value : a)
+//			//		{
+//			//			System.out.println(value);
+//			//		}	
+//		}
+//		catch (Exception e) {
+//			// gestion des exceptions
+//			System.out.println( e.getMessage() );
+//		}
+//		return a;
+//
+//
+//	}
 
 
 }

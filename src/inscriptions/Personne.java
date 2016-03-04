@@ -29,24 +29,24 @@ public class Personne extends Candidat
 		equipes = new TreeSet<>();
 	}
 	
-	public static String aff()
-	{
-		 
-		String afficheper = "Select * from Personne;";
-		ResultSet rs = DB.Base.connexionQuery(afficheper);
-		try {
-			String s="";
-			while(rs.next()) {
-				s += rs.getString("nomPersonne")+ " "+ rs.getString("prenomPersonne")+"\n";
-			return s;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//System.out.println( e.getMessage() );
-		}
-		return "";
-	}
+//	public static String aff()
+//	{
+//		 
+//		String afficheper = "Select * from Personne;";
+//		ResultSet rs = DB.Base.connexionQuery(afficheper);
+//		try {
+//			String s="";
+//			while(rs.next()) {
+//				s += rs.getString("nomPersonne")+ " "+ rs.getString("prenomPersonne")+"\n";
+//			return s;
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			//System.out.println( e.getMessage() );
+//		}
+//		return "";
+//	}
 	/**
 	 * Retourne le prénom de la personne.
 	 * @return 
@@ -56,18 +56,7 @@ public class Personne extends Candidat
 
 	public String getPrenom()
 	{
-		String afficheprenom = "Select prenomPersonne from Personne "
-				+ "where prenomPersonne ='"+ prenom+"';";
-		ResultSet rs = DB.Base.connexionQuery(afficheprenom);
-		try {
-			while(rs.next()) {
-				return  rs.getString("prenomPersonne");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
+		
 		return prenom;
 	}
 

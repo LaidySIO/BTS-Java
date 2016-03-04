@@ -79,7 +79,6 @@ public class Interface {
 								+ c.getCompetitions() + "\n");
 						System.out.println("\tEQUIPES:"
 								+ NomEquipes((Personne) c) + "\n");
-						System.out.println(inscriptions.Personne.aff());
 						count++;
 						i++;
 

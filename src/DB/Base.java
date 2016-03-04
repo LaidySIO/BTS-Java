@@ -106,7 +106,7 @@ public class Base {
 		//Base.connexionQuery("Select * from candidat ;");
 		//Base.connexionExe("insert into candidat (nom) values ('LALA')");
 		//test1.createPersonne("MIMI", "LALA","MAil");
-		System.out.print(DB.Req.affEqui());
+		//System.out.print(DB.Req.affEqui());
 		//System.out.println(DB.Req.affequipe());
 		
 	}
