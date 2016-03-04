@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import DB.Req;
+
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
  * permet de gérer les compétitions, candidats (de type equipe ou personne)
@@ -24,15 +26,15 @@ public class Inscriptions implements Serializable
 	private static final long serialVersionUID = -3095339436048473524L;
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
-	
+	public static boolean db = true; 
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
 	
-	private final static boolean db = true;
-
-	private Inscriptions()
+	private Inscriptions(boolean db)
 	{
-//		this.db = true;
+		this.db = db;
+		if (db)
+			Req.chargeEquipes();
 	}
 	
 	public void setdb (boolean db)
@@ -48,7 +50,43 @@ public class Inscriptions implements Serializable
 	public SortedSet<Competition> getCompetitions()
 	{
 		System.out.println("db = " + db);
-		if (db){
+		if (db) 
+		{
+		
+		String afficheComp= "Select * from Competition;";
+		ResultSet res =DB.Base.connexionQuery(afficheComp);
+		SortedSet<Competition> tab = new TreeSet<Competition>();
+		//Competition competition = new Competition(this, res.getString("nomCompetition"), res.getString("dateCloture")dateCloture, enEquipe);
+		try {
+			
+			Competition test;
+			System.out.println("avant");
+			while(res.next()) {
+				test=  new Competition(this, res.getString("nomCompetition"), LocalDate.parse(res.getString("dateCloture")), res.getBoolean("enEquipe"));
+				if (test.getDateCloture() == null)
+					System.out.println("achtung ! la date est nulle !!!!");
+				else
+					System.out.println("OK");
+				tab.add(test);
+			}
+			System.out.println("après");
+
+				return tab;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			//System.out.println( e.getMessage() );
+		}
+		return tab;
+	}
+		
+		else
+		{
+			return Collections.unmodifiableSortedSet(competitions);
+		}
+		
+/*		if (db){
 		String recupComp= "Select * from Competition;";
 		ResultSet result = DB.Base.connexionQuery(recupComp);
 		SortedSet<Competition> tab = new TreeSet<Competition>();
@@ -68,7 +106,8 @@ public class Inscriptions implements Serializable
 		{
 			return Collections.unmodifiableSortedSet(competitions);
 		}
-	}
+*/
+		}
 	
 	
 	/**
@@ -78,6 +117,7 @@ public class Inscriptions implements Serializable
 	
 	public SortedSet<Candidat> getCandidats()
 	{
+		//DB.Req.affEqui();
 		return Collections.unmodifiableSortedSet(candidats);
 	}
 
@@ -112,8 +152,7 @@ public class Inscriptions implements Serializable
 	
 	public Personne createPersonne(String nom, String prenom, String mail)
 	{
-		String createP  = "Insert into Personne (nomPersonne,prenomPersonne,mail) values ('"+ nom +"','"+prenom+"','"+ mail + "');";
-		DB.Base.connexionExe(createP);
+		DB.Req.addPers(nom, prenom, mail);
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
 		return personne;
@@ -131,8 +170,7 @@ public class Inscriptions implements Serializable
 	
 	public Equipe createEquipe(String nom)
 	{
-		String createE  = "Insert into Equipe (nomEquipe) values ('"+ nom + "');";
-		DB.Base.connexionExe(createE);
+
 		Equipe equipe = new Equipe(this, nom);
 		candidats.add(equipe);
 		return equipe;
@@ -177,7 +215,7 @@ public class Inscriptions implements Serializable
 		{
 			inscriptions = readObject();
 			if (inscriptions == null)
-				inscriptions = new Inscriptions();
+				inscriptions = new Inscriptions(db);
 		}
 		return inscriptions;
 	}

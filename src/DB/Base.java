@@ -14,6 +14,8 @@ import com.mysql.jdbc.ResultSetMetaData;
 
 public class Base {
 	
+	public static Connection con;
+	public static Class c;
 	
 	public Base()
 	{
@@ -29,36 +31,40 @@ public class Base {
 		   } 
 		   return noms; 
 		}
+	
+	public static Connection connexion () throws ClassNotFoundException
+	{
+		
+		try{
+				c = Class.forName("com.mysql.jdbc.Driver") ;
+				Driver pilote = (Driver)c.newInstance() ;
+				DriverManager.registerDriver(pilote);
+				String protocole =  "jdbc:mysql:" ;
+				String ip =  "localhost" ;  
+				String port =  "3306" ; 
+			
+				String nomBase =  "inscriptions" ;  
+				String conString = protocole +  "//" + ip +  ":" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
+				String nomConnexion =  "root" ;  
+				String motDePasse =  "donald971" ;
+				con = DriverManager.getConnection(
+						conString, nomConnexion, motDePasse) ;
+					
+		}
+		catch (Exception e) {
+			System.out.println( e.getMessage() );
+		}
+		return con;
+	}
 
 	public static void connexionExe (String req)
 	{
 		try {
-			// chargement de la classe par son nom
-			Class c = Class.forName("com.mysql.jdbc.Driver") ;
-			Driver pilote = (Driver)c.newInstance() ;
-			// enregistrement du pilote auprès du DriverManager
-			DriverManager.registerDriver(pilote);
-			// Protocole de connexion
-			String protocole =  "jdbc:mysql:" ;
-			// Adresse IP de l’hôte de la base et port
-			String ip =  "localhost" ;  // dépend du contexte
-			String port =  "3306" ;  // port MySQL par défaut
-			// Nom de la base ;
-			String nomBase =  "inscriptions" ;  // dépend du contexte
-			// Chaîne de connexion
-			String conString = protocole +  "//" + ip +  ":" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
-			// Identifiants de connexion et mot de passe
-			String nomConnexion =  "root" ;  // dépend du contexte
-			String motDePasse =  "donald971" ;  // dépend du contexte
-			// Connexion
-			Connection con = DriverManager.getConnection(
-					conString, nomConnexion, motDePasse) ;
-			// Envoi d’un requête générique
+			connexion();
 			String sql = req  ;
 			Statement smt = con.createStatement() ;
-			/*ResultSet rs = */smt.executeUpdate(sql) ;
+			smt.executeUpdate(sql) ;
 		}  catch (Exception e) {
-			// gestion des exceptions
 			System.out.println( e.getMessage() );
 		}
 	}
@@ -69,40 +75,17 @@ public class Base {
 	{
 		Connection con = null;
 		try {
-				// chargement de la classe par son nom
-			Class c = Class.forName("com.mysql.jdbc.Driver") ;
-			Driver pilote = (Driver)c.newInstance() ;
-				// enregistrement du pilote auprès du DriverManager
-			DriverManager.registerDriver(pilote);
-				// Protocole de connexion
-			String protocole =  "jdbc:mysql:" ;
-				// Adresse IP de l’hôte de la base et port
-			String ip =  "localhost" ;  // dépend du contexte
-			String port =  "3306" ;  // port MySQL par défaut
-				// Nom de la base ;
-			String nomBase =  "inscriptions" ;  // dépend du contexte
-				// Chaîne de connexion
-			String conString = protocole +  "//" + ip +  ":" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
-				// Identifiants de connexion et mot de passe
-			String nomConnexion =  "root" ;  // dépend du contexte
-			String motDePasse =  "donald971" ;  // dépend du contexte
-				// Connexion
-			con = DriverManager.getConnection(
-					conString, nomConnexion, motDePasse) ;
-				// Envoi d’un requête générique
+			connexion();
 			String sql = req  ;
 			Statement smt = con.createStatement() ;
 			ResultSet rs = smt.executeQuery(sql) ;
 			return rs;
-			
 		}
 		catch (Exception e) {
 		// gestion des exceptions
 		System.out.println( e.getMessage() );
 		}
-		
 
-		
 		finally
 		{
 			try {
@@ -115,15 +98,17 @@ public class Base {
 		return null;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
-		inscriptions.Inscriptions test1 = inscriptions.Inscriptions.getInscriptions();
+		//inscriptions.Inscriptions test1 = inscriptions.Inscriptions.getInscriptions();
 		//inscriptions.Personne test = new Personne(); 
-		String nom = "TITI";
-		Base.connexionQuery("Select * from candidat ;");
-		Base.connexionExe("insert into candidat (nom) values ('LALA')");
-		test1.createPersonne("MIMI", "LALA","MAil");
-
+		//String nom = "TITI";
+		//Base.connexionQuery("Select * from candidat ;");
+		//Base.connexionExe("insert into candidat (nom) values ('LALA')");
+		//test1.createPersonne("MIMI", "LALA","MAil");
+		System.out.print(DB.Req.affEqui());
+		//System.out.println(DB.Req.affequipe());
+		
 	}
 
 }

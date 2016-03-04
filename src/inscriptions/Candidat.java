@@ -29,6 +29,7 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	 * @return
 	 */
 	
+	
 	public String getNom()
 	{
 		return nom;
