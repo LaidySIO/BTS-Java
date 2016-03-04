@@ -22,21 +22,13 @@ public class Interface {
 	 */
 	static Menu getMenuPrincipal() {
 		Menu menuPrincipal = new Menu("Menu Principal");
-		// menuPrincipal.ajoute(getMenuInscription());
-		menuPrincipal.ajoute(getOptionAfficherInscription());
-		menuPrincipal.ajoute(getMenuCandidat());
+		// menuPrincipal.ajoute(getOptionAfficherInscription());
+		// menuPrincipal.ajoute(getMenuCandidat());
+		menuPrincipal.ajoute(getMenuPersonne());
+		menuPrincipal.ajoute(getMenuEquipe());
 		menuPrincipal.ajoute(getMenuCompetition());
 		menuPrincipal.ajouteQuitter("Q");
 		return menuPrincipal;
-	}
-
-	static Menu getMenuCandidat() {
-		Menu candidat = new Menu("CANDIDATS", "CA");
-		candidat.ajoute(getMenuPersonne());
-		candidat.ajoute(getMenuEquipe());
-		candidat.ajouteRevenir("P");
-		candidat.ajouteQuitter("Q");
-		return candidat;
 	}
 
 	static Menu getMenuPersonne() {
@@ -56,29 +48,31 @@ public class Interface {
 		equipe.ajoute(getMenuModifierPersonneEquipe());
 		equipe.ajoute(getOptionCreerEquipe());
 		equipe.ajoute(getOptionSupprimerEquipe());
-		equipe.ajouteRevenir("P");;
-		equipe.ajouteQuitter("Q");;
+		equipe.ajouteRevenir("P");
+		;
+		equipe.ajouteQuitter("Q");
+		;
 		return equipe;
 	}
 
 	static Option getOptionAfficherPersonne() {
-		
+
 		Option afficherCandidats = new Option("Afficher les personnes", "AP",
 				getActionAfficherPersonne());
-		
+
 		return afficherCandidats;
 	}
 
 	static Action getActionAfficherPersonne() {
-		
+
 		return new Action() {
 			public void optionSelectionnee() {
-				
+
 				int i = 0;
 				int count = 1;
 				for (inscriptions.Candidat c : inscript.getCandidats()) {
 					if (c instanceof Personne) {
-						
+
 						System.out.println(count + "- " + c.getNom() + " "
 								+ ((Personne) c).getPrenom());
 						System.out.println("\tCOMPETITIONS:"
@@ -88,19 +82,17 @@ public class Interface {
 						System.out.println(inscriptions.Personne.aff());
 						count++;
 						i++;
-						
+
 					}
-					
+
 				}
-				
+
 				if (i == 0)
 					System.out.println("\tAucune personne enregistrée!!\n");
 			}
-		
+
 		};
-		
-		
-		
+
 	}
 
 	static Option getOptionAfficherEquipe() {
@@ -165,7 +157,8 @@ public class Interface {
 			public void optionSelectionnee() {
 				String nom = utilitaires.EntreesSorties
 						.getString("entrer le nom");
-				//LocalDate date = LocalDate.parse(utilitaires.EntreesSorties.getString("entrer la date de clôture"));
+				// LocalDate date =
+				// LocalDate.parse(utilitaires.EntreesSorties.getString("entrer la date de clôture"));
 				inscript.createEquipe(nom);
 			}
 		};

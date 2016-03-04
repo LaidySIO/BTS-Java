@@ -1,11 +1,14 @@
 package DB;
 
+import inscriptions.Competition;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.SortedSet;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
@@ -87,7 +90,7 @@ public class Base {
 		{
 			try {
 				con.close();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				
 				
 			}

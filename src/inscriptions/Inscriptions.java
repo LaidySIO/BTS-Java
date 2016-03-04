@@ -37,6 +37,11 @@ public class Inscriptions implements Serializable
 			Req.chargeEquipes();
 	}
 	
+	public void setdb (boolean db)
+	{
+		System.out.println("chgt de valeur");
+//		this.db = db;
+	}
 	/**
 	 * Retourne les compétitions.
 	 * @return
@@ -81,7 +86,29 @@ public class Inscriptions implements Serializable
 			return Collections.unmodifiableSortedSet(competitions);
 		}
 		
-	}
+/*		if (db){
+		String recupComp= "Select * from Competition;";
+		ResultSet result = DB.Base.connexionQuery(recupComp);
+		SortedSet<Competition> tab = new TreeSet<Competition>();
+			try{
+					while (result.next()){
+						Competition c = new Competition(this, result.getString(1), LocalDate.parse(result.getString(2)), result.getBoolean(3));
+						tab.add(c);
+					}
+					return tab;	
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			return tab;
+		}
+		else
+		{
+			return Collections.unmodifiableSortedSet(competitions);
+		}
+*/
+		}
+	
 	
 	/**
 	 * Retourne tous les candidats (personnes et équipes confondues).
