@@ -19,13 +19,12 @@ public class FenetrePrincipale extends JFrame {
 		};
 
 			addWindowListener(l);
-			setSize(200,100);
+			setSize(700, 500);
 			setVisible(true);
 	}
 	
 	public static void main(String [] args){
 		JFrame Accueil = new FenetrePrincipale();
-		Accueil.setSize(700, 500);
 		}
 
 }
