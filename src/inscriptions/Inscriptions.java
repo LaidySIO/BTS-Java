@@ -33,9 +33,13 @@ public class Inscriptions implements Serializable
 	private Inscriptions(boolean db)
 	{
 		Inscriptions.db = db;
-		if(db)
+		if (db)
+		{
 			Req.chargeEquipes(this);
-	}
+			Req.chargePersonnes(this);
+			Req.chargeCompet(this);
+		}
+	}	
 	
 	public void setdb (boolean db)
 	{
@@ -152,7 +156,8 @@ public class Inscriptions implements Serializable
 	
 	public Personne createPersonne(String nom, String prenom, String mail)
 	{
-		DB.Req.addPers(nom, prenom, mail);
+		if (db)
+			DB.Req.addPers(nom, prenom, mail);
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
 		return personne;
@@ -183,9 +188,9 @@ public class Inscriptions implements Serializable
 	
 	void remove(Competition competition)
 	{
-		String removeC  = "delete from competition where dateCloture = "+ competition.getDateCloture() 
-				+" and nom = '"+competition.getNom()+"';";
-		DB.Base.connexionExe(removeC);
+//		String removeC  = "delete from competition where dateCloture = "+ competition.getDateCloture() 
+//				+" and nom = '"+competition.getNom()+"';";
+//		DB.Base.connexionExe(removeC);
 		competitions.remove(competition);
 	}
 	
@@ -196,8 +201,8 @@ public class Inscriptions implements Serializable
 	
 	void remove(Candidat candidat)
 	{
-		String removeCand  = "delete from competition where nom = "+candidat.getNom()+"';";
-		DB.Base.connexionExe(removeCand);
+//		String removeCand  = "delete from competition where nom = "+candidat.getNom()+"';";
+//		DB.Base.connexionExe(removeCand);
 		candidats.remove(candidat);
 	}
 	
