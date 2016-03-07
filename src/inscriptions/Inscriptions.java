@@ -80,42 +80,42 @@ public class Inscriptions implements Serializable
 	
 	public SortedSet<Competition> getCompetitions()
 	{
-		System.out.println("db = " + db);
-		if (db) 
-		{
+//		System.out.println("db = " + db);
+//		if (db) 
+//		{
 		
-		String afficheComp= "Select * from Competition;";
-		ResultSet res =DB.Base.connexionQuery(afficheComp);
-		SortedSet<Competition> tab = new TreeSet<Competition>();
+//		String afficheComp= "Select * from Competition;";
+//		ResultSet res =DB.Base.connexionQuery(afficheComp);
+//		SortedSet<Competition> tab = new TreeSet<Competition>();
 		//Competition competition = new Competition(this, res.getString("nomCompetition"), res.getString("dateCloture")dateCloture, enEquipe);
-		try {
-			
-			Competition test;
-			System.out.println("avant");
-			while(res.next()) {
-				test=  new Competition(this, res.getString("nomCompetition"), LocalDate.parse(res.getString("dateCloture")), res.getBoolean("enEquipe"));
-				if (test.getDateCloture() == null)
-					System.out.println("achtung ! la date est nulle !!!!");
-				else
-					System.out.println("OK");
-				tab.add(test);
-			}
-			System.out.println("après");
-
-				return tab;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//System.out.println( e.getMessage() );
-		}
-		return tab;
-	}
-		
-		else
-		{
-			return Collections.unmodifiableSortedSet(competitions);
-		}
+//		try {
+//			
+//			Competition test;
+//			System.out.println("avant");
+//			while(res.next()) {
+//				test=  new Competition(this, res.getString("nomCompetition"), LocalDate.parse(res.getString("dateCloture")), res.getBoolean("enEquipe"));
+//				if (test.getDateCloture() == null)
+//					System.out.println("achtung ! la date est nulle !!!!");
+//				else
+//					System.out.println("OK");
+//				tab.add(test);
+//			}
+//			System.out.println("après");
+//
+//				return tab;
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			//System.out.println( e.getMessage() );
+//		}
+//		return tab;
+//	}
+//		
+//		else
+//		{
+//			return Collections.unmodifiableSortedSet(competitions);
+//		}
 		
 /*		if (db){
 		String recupComp= "Select * from Competition;";
@@ -138,9 +138,9 @@ public class Inscriptions implements Serializable
 			return Collections.unmodifiableSortedSet(competitions);
 		}
 */
-		}
 	
-	
+		return Collections.unmodifiableSortedSet(competitions);
+	}
 	/**
 	 * Retourne tous les candidats (personnes et équipes confondues).
 	 * @return
@@ -148,7 +148,7 @@ public class Inscriptions implements Serializable
 	
 	public SortedSet<Candidat> getCandidats()
 	{
-		//DB.Req.affEqui();
+
 		return Collections.unmodifiableSortedSet(candidats);
 	}
 
@@ -164,8 +164,8 @@ public class Inscriptions implements Serializable
 	public Competition createCompetition(String nom, 
 			LocalDate dateCloture, boolean enEquipe)
 	{
-		String createComp  = "Insert into competition (nomCompetition,dateCloture,enEquipe) values ('"+ nom + "','"+ dateCloture+"','"+enEquipe+"');";
-		DB.Base.connexionExe(createComp);
+		if (db)
+		DB.Req.addComp(nom, dateCloture, enEquipe);
 		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
 		competitions.add(competition);
 		return competition;
@@ -202,7 +202,8 @@ public class Inscriptions implements Serializable
 	
 	public Equipe createEquipe(String nom)
 	{
-
+		if (db)
+			DB.Req.addEqui(nom);
 		Equipe equipe = new Equipe(this, nom);
 		candidats.add(equipe);
 		return equipe;
@@ -215,9 +216,8 @@ public class Inscriptions implements Serializable
 	
 	void remove(Competition competition)
 	{
-//		String removeC  = "delete from competition where dateCloture = "+ competition.getDateCloture() 
-//				+" and nom = '"+competition.getNom()+"';";
-//		DB.Base.connexionExe(removeC);
+		if (db)
+			DB.Req.suppComp(competition.getNom(), competition.getDateCloture(), competition.estEnEquipe());
 		competitions.remove(competition);
 	}
 	
@@ -228,8 +228,8 @@ public class Inscriptions implements Serializable
 	
 	void remove(Candidat candidat)
 	{
-//		String removeCand  = "delete from competition where nom = "+candidat.getNom()+"';";
-//		DB.Base.connexionExe(removeCand);
+		if (db)
+			DB.Req.suppCand(candidat.getNom());
 		candidats.remove(candidat);
 	}
 	

@@ -44,9 +44,10 @@ public class Base {
 				String port =  "3306" ; 
 			
 				String nomBase =  "inscription" ;  
-				String conString = protocole +  "//" + ip +  ":" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
+				String conString = protocole +  "//" + ip +  ":"
+						+ "" + port +  "/" + nomBase + "?autoReconnect=true&useSSL=false" ;
 				String nomConnexion =  "root" ;  
-				String motDePasse =  "" ;
+				String motDePasse =  "donald971" ;
 				con = DriverManager.getConnection(
 						conString, nomConnexion, motDePasse) ;
 					
@@ -68,7 +69,7 @@ public class Base {
 			System.out.println( e.getMessage() );
 		}
 	}
-	//}
+	
 
 
 	public static ResultSet connexionQuery (String req)

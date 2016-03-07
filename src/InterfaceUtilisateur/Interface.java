@@ -206,6 +206,12 @@ public class Interface {
 				modifMembre.start();
 
 			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 
@@ -318,6 +324,12 @@ public class Interface {
 
 			}
 
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 	}
 
@@ -356,6 +368,12 @@ public class Interface {
 				System.out.println("Le membre a bien été enlevé de l'équipe");
 			}
 
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 	}
 
@@ -384,6 +402,12 @@ public class Interface {
 			@Override
 			public void elementSelectionne(int indice, Personne element) {
 				equipe.add(element);
+			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
 			}
 		};
 	}
@@ -414,6 +438,12 @@ public class Interface {
 				System.out.println("\tle membre " + element.getNom()
 						+ " a bien été supprimé\n");
 
+			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
 			}
 		};
 	}
@@ -447,6 +477,12 @@ public class Interface {
 				element.delete();
 				System.out.println(element + " a bien été supprimée!\n");
 
+			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
 			}
 
 		};
@@ -547,6 +583,12 @@ public class Interface {
 
 			}
 
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 	}
 
@@ -600,6 +642,12 @@ public class Interface {
 					MenuInscrirePersonne(element).start();
 				}
 			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 
@@ -642,6 +690,12 @@ public class Interface {
 				}
 
 			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 
@@ -682,6 +736,12 @@ public class Interface {
 							+ comp.getNom() + "\n");
 
 				}
+			}
+
+			@Override
+			public void add(String b) {
+				// TODO Auto-generated method stub
+				
 			}
 		};
 	}
