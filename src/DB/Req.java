@@ -34,15 +34,14 @@ public class Req {
 
 	public static void addPers(String nom, String prenom,String mail)
 	{
-		String createP  = "Insert into Personne (nomPersonne,prenomPersonne,mail) "
-				+ "values ('"+ nom +"','"+prenom+"','"+ mail + "');";
+
+		String createP = "call insertPersonne('" + nom + "','" + prenom + "','" + mail + "');";
 		Base.connexionExe(createP);
 	}
 
 	public static void addEqui(String nom)
 	{
-		String createE  = "Insert into Equipe (nomEquipe) "
-				+ "values ('"+ nom +"');";
+		String createE = "call insertEquipe('" + nom + "');";
 		Base.connexionExe(createE);
 	}
 
@@ -51,6 +50,11 @@ public class Req {
 		String createC  = "Insert into Competition (nomCompetition,dateCloture,enEquipe) "
 				+ "values ('"+ nom +"','"+dateCloture+"','"+ enEquipe + "');";
 		Base.connexionExe(createC);
+	}
+	
+	public static void addToCompetition(int idComp, int idCand )
+	{
+		
 	}
 	
 	////////////////////////////////
@@ -73,7 +77,25 @@ public class Req {
 		String suppC  = "Delete from Candidat where nom = '"+ nom + "';";
 		Base.connexionExe(suppC);
 	}
-
+	
+	public static void suppEqui(String nom)
+	{
+		String suppE  = "Delete from Equipe where nom = '"+ nom + "';";
+		Base.connexionExe(suppE);
+	}
+	
+	
+///////////////////////////////////////
+	
+	
+	public static void modifPren(String oldPrenom, String prenom)
+	{
+		String modifPers  = "UPDATE Personne SET prenomPersonne = '"+ prenom + "' "
+				+ "WHERE nomPersonne ='"+oldPrenom+"';";
+		DB.Base.connexionExe(modifPers);
+	}
+	
+	
 //	public static void addCand(String nom)
 //	{
 //		String createCand  = "Insert into Candidat (nom) "
@@ -97,6 +119,7 @@ public class Req {
 			smt = con.createStatement();
 			rs =smt.executeQuery(req);
 			while (rs.next())
+				System.out.println("coucou :!!ChargeEquipe!!!!!!!!");
 				inscriptions.createEquipe(rs.getString("nomEquipe"));
 		}
 		catch (Exception e) {
@@ -114,8 +137,8 @@ public class Req {
 			rs =smt.executeQuery(req);
 			while (rs.next())
 			{
-				System.out.println("coucou :!!!!!!!!!!");
-				inscriptions.createPersonne(rs.getString("nomPersonne"), rs.getString("pernomPersonne"),rs.getString("mail"));
+				System.out.println("coucou :!!ChargePersonnes!!!!!!!!");
+				inscriptions.createPersonne(rs.getString("nomPersonne"), rs.getString("prenomPersonne"),rs.getString("mail"));
 			}
 		}	
 		catch (Exception e) {
@@ -133,6 +156,7 @@ public class Req {
 			smt = con.createStatement();
 			rs =smt.executeQuery(req);
 			while (rs.next())
+				System.out.println("coucou :!!ChargeCompet!!!!!!!!");
 				inscriptions.createCompetition(rs.getString("nomCompetition"), rs.getDate("dateCloture").toLocalDate(),rs.getBoolean("enEquipe"));
 		}
 		catch (Exception e) {

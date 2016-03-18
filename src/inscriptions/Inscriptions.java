@@ -71,6 +71,8 @@ public class Inscriptions implements Serializable
 	
 	public SortedSet<Equipe> getEquipes()
 	{
+		if (db)
+			DB.Req.chargeEquipes(inscriptions);
 		SortedSet<Equipe> equipes = new TreeSet<>();
 		for (Candidat c : getCandidats())
 			if (c instanceof Equipe)
