@@ -19,7 +19,6 @@ public class FenetrePrincipale extends JFrame {
 	public FenetrePrincipale() {
 		this.setSize(700, 500);
 		this.setTitle("INSCRIPTIONS SPORTIVES PAR M2L");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new FlowLayout());
 		jButtons = new JButton[3];
 		jButtons[0] = new JButton("PERSONNES");
@@ -29,6 +28,7 @@ public class FenetrePrincipale extends JFrame {
 		jButtons[0].setLayout(new FlowLayout(FlowLayout.LEFT));
 		jButtons[1].setLayout(new FlowLayout(FlowLayout.CENTER));
 		jButtons[2].setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
 		jButtons[0].addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -38,13 +38,13 @@ public class FenetrePrincipale extends JFrame {
 		});
 		jButtons[1].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame MP = new MenuPersonne();
+				JFrame MP = new MenuEquipe();
 				MP.setVisible(true);
 			}
 		});
 		jButtons[2].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame MP = new MenuPersonne();
+				JFrame MP = new MenuCompetition();
 				MP.setVisible(true);
 			}
 		});

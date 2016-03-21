@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 public class MenuPersonne extends JFrame {
-	private static final long serialVersionUID = 3563094549912370491L;
+	//private static final long serialVersionUID = 3563094549912370491L;
 	JButton [] jButtons;
 	public MenuPersonne()
 	{
