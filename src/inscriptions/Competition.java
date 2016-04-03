@@ -20,6 +20,7 @@ public class Competition implements Comparable<Competition>, Serializable
 	private Set<Candidat> candidats;
 	private LocalDate dateCloture;
 	private boolean enEquipe = false;
+	static boolean db = true;
 
 	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
 	{
@@ -106,6 +107,9 @@ public class Competition implements Comparable<Competition>, Serializable
 		else{
 		if (enEquipe)
 			throw new RuntimeException();
+		if (db)
+			DB.Req.addToCompetition(this.nom, personne.getNom());
+			
 		personne.add(this);
 		return candidats.add(personne);
 		}
@@ -125,6 +129,8 @@ public class Competition implements Comparable<Competition>, Serializable
 			return false;
 		if (!enEquipe)
 			throw new RuntimeException();
+		if (db)
+			DB.Req.addToCompetition(this.nom, equipe.getNom());
 		equipe.add(this);
 		return candidats.add(equipe);
 	}

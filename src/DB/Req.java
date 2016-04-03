@@ -52,8 +52,24 @@ public class Req {
 		Base.connexionExe(createC);
 	}
 	
-	public static void addToCompetition(int idComp, int idCand )
+	public static void addToCompetition(String nom, String nomcand )
 	{
+		String getcomp,getcand;
+		int idcand, idcomp;
+		getcomp = "call getidcomp("+ nom+")";
+		getcand = "call getidcand("+ nomcand+")";
+		ResultSet rs = Base.connexionQuery(getcomp);
+		ResultSet rs2 = Base.connexionQuery(getcand);
+		try {
+			idcand = rs2.getInt(0);
+			idcomp = rs.getInt(0);
+			String req = "call addtocompete("+ idcand +","+ idcomp+")";
+			DB.Base.connexionExe(req);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
@@ -94,6 +110,8 @@ public class Req {
 				+ "WHERE nomPersonne ='"+oldPrenom+"';";
 		DB.Base.connexionExe(modifPers);
 	}
+	
+
 	
 	
 //	public static void addCand(String nom)
