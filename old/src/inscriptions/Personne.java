@@ -1,4 +1,10 @@
 package inscriptions;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,19 +18,35 @@ import java.util.TreeSet;
 public class Personne extends Candidat
 {
 	private static final long serialVersionUID = 4434646724271327254L;
-	private String prenom, mail, nom;
+	private String prenom, mail;
 	private Set<Equipe> equipes;
 	
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail)
 	{
 		super(inscriptions, nom);
-		this.nom = nom;
 		this.prenom = prenom;
 		this.mail = mail;
 		equipes = new TreeSet<>();
 	}
 	
-
+//	public static String aff()
+//	{
+//		 
+//		String afficheper = "Select * from Personne;";
+//		ResultSet rs = DB.Base.connexionQuery(afficheper);
+//		try {
+//			String s="";
+//			while(rs.next()) {
+//				s += rs.getString("nomPersonne")+ " "+ rs.getString("prenomPersonne")+"\n";
+//			return s;
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			//System.out.println( e.getMessage() );
+//		}
+//		return "";
+//	}
 	/**
 	 * Retourne le prénom de la personne.
 	 * @return 
@@ -45,10 +67,9 @@ public class Personne extends Candidat
 	
 	public void setPrenom(String prenom)
 	{
-//		String setP  = "UPDATE Personne SET prenomPersonne = '"+ prenom + "' "
-//				+ "WHERE nomPersonne ='"+ this.mail+"';";
-//		DB.Base.connexionExe(setP);
-		DB.Req.modifPren(getPrenom(), prenom, this);
+		String setP  = "UPDATE Personne SET prenomPersonne = '"+ prenom + "' "
+				+ "WHERE nomPersonne ='"+ this.mail+"';";
+		DB.Base.connexionExe(setP);
 
 		this.prenom = prenom;
 	}
@@ -60,6 +81,18 @@ public class Personne extends Candidat
 	
 	public String getMail()
 	{
+//		String affichemail = "Select mail from Personne; "
+//				+ "where prenomPersonne ='"+ prenom+"';";
+//		ResultSet rs = DB.Base.connexionQuery(affichemail);
+//		try {
+//			while(rs.next()) {
+//				return  rs.getString("mail");
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println( e.getMessage() );
+//		}
 		return mail;
 	}
 
@@ -74,13 +107,8 @@ public class Personne extends Candidat
 				+ "WHERE nomPersonne ='"+ this.mail+"';";
 		DB.Base.connexionExe(setM);
 
-		//this.prenom = prenom;
+		this.prenom = prenom;
 		this.mail = mail;
-	}
-	
-	public void setNom(String nom)
-	{
-		DB.Req.modifnom(this.nom, nom, this);
 	}
 
 	/**
@@ -106,7 +134,6 @@ public class Personne extends Candidat
 	@Override
 	public void delete()
 	{
-		DB.Req.suppPers(this.getNom(), this.getPrenom(), this.getMail());
 		super.delete();
 		for (Equipe e : equipes)
 			e.remove(this);

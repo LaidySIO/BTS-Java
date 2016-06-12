@@ -73,7 +73,7 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	{
 		for (Competition c : competitions)
 			c.remove(this);
-		inscriptions.remove(this, false); // true pour utiliser la BD	
+		inscriptions.remove(this);
 	}
 	
 	@Override
@@ -85,16 +85,6 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	@Override
 	public String toString()
 	{
-		String msg = "";
-		
-		if(getCompetitions() == null)
-		{		
-		msg =  "\n" + getNom() + " -> inscrit à  " + getCompetitions();
-		}
-		else 
-		{
-			msg = "\n" + getNom() + " n'est inscrit à auccune compétition";
-		}
-		return msg;
+		return "\n" + getNom() + " -> inscrit à  " + getCompetitions();
 	}
 }

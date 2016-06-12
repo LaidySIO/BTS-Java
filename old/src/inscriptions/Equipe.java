@@ -14,25 +14,10 @@ public class Equipe extends Candidat
 {
 	private static final long serialVersionUID = 4147819927233466035L;
 	private SortedSet<Personne> membres = new TreeSet<>();
-	boolean db= true;
-	private Personne entraineur;
-
+	
 	Equipe(Inscriptions inscriptions, String nom)
 	{
 		super(inscriptions, nom);
-	}
-	Equipe (Inscriptions inscriptions, String nom, Personne Entraineur)
-	{
-		this (inscriptions, nom);
-		this.entraineur = Entraineur;
-	}
-	public Personne getEntraineur()
-	{
-		return this.entraineur;
-	}
-	public void setEntraineur (Personne p)
-	{
-		this.entraineur = p;
 	}
 
 	/**
@@ -72,8 +57,6 @@ public class Equipe extends Candidat
 	@Override
 	public void delete()
 	{
-		if (db)
-			DB.Req.suppEqui(this.getNom());
 		super.delete();
 	}
 	

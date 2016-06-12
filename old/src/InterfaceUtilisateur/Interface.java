@@ -19,8 +19,10 @@ public class Interface {
 	 * constitue la page d'acceuil de l'application en regroupant les 3
 	 * principaux menus -candidat, competitions et inscription
 	 */
-	public static Menu getMenuPrincipal() {
+	static Menu getMenuPrincipal() {
 		Menu menuPrincipal = new Menu("Menu Principal");
+		// menuPrincipal.ajoute(getOptionAfficherInscription());
+		// menuPrincipal.ajoute(getMenuCandidat());
 		menuPrincipal.ajoute(getMenuPersonne());
 		menuPrincipal.ajoute(getMenuEquipe());
 		menuPrincipal.ajoute(getMenuCompetition());
@@ -31,7 +33,7 @@ public class Interface {
 	static Menu getMenuPersonne() {
 		Menu personne = new Menu("Les Personnes", "LP");
 		personne.ajoute(getOptionAfficherPersonne());
-		personne.ajoute(getOptionModifierPersonne());
+		personne.ajoute(getMenuModifierPersonne());
 		personne.ajoute(getOptionCreerPersonne());
 		personne.ajoute(getOptionSupprimerPersonne());
 		personne.ajouteRevenir("P");
@@ -73,14 +75,14 @@ public class Interface {
 						System.out.println(count + "- " + c.getNom() + " "
 								+ ((Personne) c).getPrenom());
 						System.out.println("\tCOMPETITIONS:"
-								+ NomCompetitions(c) + "\n");
+								+ c.getCompetitions() + "\n");
 						System.out.println("\tEQUIPES:"
-								+ NomEquipes((Personne)c) + "\n");
+								+ NomEquipes((Personne) c) + "\n");
 						count++;
 						i++;
 
 					}
-					
+
 				}
 
 				if (i == 0)
@@ -105,19 +107,13 @@ public class Interface {
 				int i = 0;
 				int count = 1;
 				for (inscriptions.Candidat c : inscript.getCandidats()) {
-					
-					
+
 					if (c instanceof Equipe) {
 						System.out.println(count + "- " + c.getNom());
-						System.out.println("\tMembres:"+NomMembres((Equipe) c)+"\n");
-						System.out.println("\tCompétitions:"+NomCompetitions(c)+"\n");
-					if (((Equipe)c).getEntraineur() != null)
-						 System.out.println("Entraineur :" + ((Equipe) c).getEntraineur().getNom());
 						count++;
 						i++;
 					}
 				}
-
 				if (i == 0)
 					System.out.println("\tAucune Equipe enregistrée!\n");
 			}
@@ -143,7 +139,7 @@ public class Interface {
 					System.out.println("\tDûMENT REMPLIR LES CHAMPS!!!");
 					getMenuPersonne().start();
 				} else
-					inscript.createPersonne(nom, prenom, mail,true);	//TRUE pour utiliser la BD
+					inscript.createPersonne(nom, prenom, mail);
 			}
 		};
 	}
@@ -161,38 +157,35 @@ public class Interface {
 						.getString("entrer le nom");
 				// LocalDate date =
 				// LocalDate.parse(utilitaires.EntreesSorties.getString("entrer la date de clôture"));
-				inscript.createEquipe(nom,true,null);	//TRUE pour utiliser la BD
+				inscript.createEquipe(nom);
 			}
 		};
 	}
 
-	static Option getOptionModifierPersonne() {
-		Option modifierPersonne = new Liste<Personne>("Modifier Une Personne", "MP", getActionListeModification());
-//		modifierPersonne.ajoute(getOptionListerPersonne());
-//		modifierPersonne.ajouteRevenir("P");
-//		modifierPersonne.ajouteQuitter("Q");
+	static Menu getMenuModifierPersonne() {
+		Menu modifierPersonne = new Menu("Modifier Une Personne", "MP");
+		modifierPersonne.ajoute(getOptionListerPersonne());
+		modifierPersonne.ajouteRevenir("P");
+		modifierPersonne.ajouteQuitter("Q");
 		// modifierEquipe.ajoute(getOptionSupprimerPersonneAequipe());
 		return modifierPersonne;
 	}
 
-//	static Option getOptionListerPersonne() {
-//		Option ListePersonne = new Liste<Personne>("Liste Des Personnes", "LP",
-//				getActionListeModification());
-//	
-//		return ListePersonne;
-//	}
+	static Option getOptionListerPersonne() {
+		Option ListePersonne = new Liste<Personne>("Liste Des Personnes", "LP",
+				getActionListeModification());
+		return ListePersonne;
+	}
 
 	static ActionListe<Personne> getActionListeModification() {
 		return new ActionListe<Personne>() {
-			
+
 			@Override
 			public List<Personne> getListe() {
 				ArrayList<Personne> personnes = new ArrayList<>();
 				for (Candidat candidat : inscript.getCandidats())
 					if (candidat instanceof Personne)
 						personnes.add((Personne) candidat);
-
-					
 				if (personnes.isEmpty()) {
 					System.out.println("\tACUNE PERSONNE ENREGISTREE!!\n");
 					getMenuEquipe().start();
@@ -201,7 +194,7 @@ public class Interface {
 							.println("\tchoisir une personne en saisissant son numéro\n");
 				return personnes;
 			}
-			
+
 			@Override
 			public void elementSelectionne(int indice, Personne element) {
 				indice = indice + 1;
@@ -219,7 +212,6 @@ public class Interface {
 				// TODO Auto-generated method stub
 				
 			}
-
 		};
 	}
 
@@ -296,83 +288,11 @@ public class Interface {
 	static Menu getMenuModifierPersonneEquipe() {
 		Menu modifierEquipe = new Menu("Modifier l'équipe", "ME");
 		modifierEquipe.ajoute(getOptionListerEquipe());
-		modifierEquipe.ajoute(getOptionModifierEntraineur());
 		modifierEquipe.ajouteRevenir("P");
 		modifierEquipe.ajouteQuitter("Q");
 		return modifierEquipe;
 	}
-	static Option getOptionModifierEntraineur()
-	{
-		Option ModifEntrain = new Liste<Equipe>("Modifier Entraineur", "ME", getActionModifEntraineur());
-		return ModifEntrain;
-	}
-	static ActionListe<Equipe> getActionModifEntraineur() {
-		return new ActionListe<Equipe> () {
 
-			@Override
-			public List<Equipe> getListe() {
-				ArrayList<Equipe> equipes = new ArrayList<>();
-				for (Candidat candidat : inscript.getCandidats())
-					if (candidat instanceof Equipe)
-						equipes.add((Equipe) candidat);
-				if (equipes.isEmpty()) {
-					System.out.println("\tAucune Equipe enregistrée!!\n");
-				}
-				return equipes;
-			}
-			@Override
-			public void elementSelectionne(int indice, Equipe equipe) {	
-				Menu choisirEntraineur = getMenuChoisirEntraineur(equipe);
-				choisirEntraineur.start();
-			}
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-	}
-
-	private static Menu getMenuChoisirEntraineur(final Equipe equipe)
-	{
-		return new Liste<>("Sélectionnez un entraîneur", "", 
-				new ActionListe<Personne>()
-		{
-			@Override
-			public List<Personne> getListe() {
-				List<Personne> liste = new ArrayList<>(inscript.getPersonnes());
-				liste.remove(equipe.getEntraineur());
-				return liste;
-			}
-
-			@Override
-			public void elementSelectionne(int indice, Personne entraineur) {
-				equipe.setEntraineur(entraineur);
-			}
-
-			@Override
-			public void add(String b) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	}
-//		{
-//			return new ActionListe<Personne>()
-//				{
-//				@Override
-//				public List<Personne> getListe(){
-//					ArrayList<Personne> personnes = new ArrayList<>();
-//					for (candidat candidat : inscript.getCandidats())
-//						if (candidat instance of Personne)
-//							
-//						}
-//				}
-//		}
-//		element.setEntraineur(P);
-//	}
-	
 	static Option getOptionListerEquipe() {
 		Option ListeEquipes = new Liste<Equipe>("Lister les Equipes", "LE",
 				getActionListeEquipe());
@@ -387,7 +307,7 @@ public class Interface {
 				ArrayList<Equipe> equipe = new ArrayList<>();
 				for (Candidat candidat : inscript.getCandidats())
 					if (candidat instanceof Equipe)
-						equipe.add((Equipe) candidat );
+						equipe.add((Equipe) candidat);
 				if (equipe.isEmpty()) {
 					System.out.println("\tAucune Equipe enregistrée!!\n");
 					getMenuEquipe().start();
@@ -433,7 +353,8 @@ public class Interface {
 
 			@Override
 			public List<Personne> getListe() {
-				ArrayList<Personne> liste = new ArrayList<Personne>();
+				ArrayList<Personne> liste = new ArrayList<Personne>(
+						equipe.getMembres());
 				if (liste.isEmpty()) {
 					System.out.println("\tAucune personne dans l'équipe\n");
 					getMenuModifierPersonneEquipe().start();
@@ -453,7 +374,6 @@ public class Interface {
 				
 			}
 
-
 		};
 	}
 
@@ -463,36 +383,6 @@ public class Interface {
 		return ajouterPersonne;
 	}
 
-//	static ActionListe<Personne> getActionAjouterPersonne(final Equipe equipe) {
-//		return new ActionListe<Personne>() {
-//
-//			@Override
-//			public List<Personne> getListe() {
-//				ArrayList<Personne> personnes = new ArrayList<>();
-//				for (Candidat candidat : inscript.getCandidats())
-//					if (candidat instanceof Equipe)
-//						personnes.add((Personne) candidat);
-//				if (personnes.isEmpty()) {
-//					System.out.println("\tAucun membre enregistré!!\n");
-//					getMenuModifierPersonneEquipe().start();
-//				}
-//
-//				return personnes;
-//			}
-//
-//			@Override
-//			public void elementSelectionne(int indice, Personne element) {
-//				DB.Req.addToEquipe(equipe.getNom(),element.getNom() );
-//				equipe.add(element);
-//			}
-//
-//			@Override
-//			public void add(String b) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		};
-//	}
 	static ActionListe<Personne> getActionAjouterPersonne(final Equipe equipe) {
 		return new ActionListe<Personne>() {
 
@@ -506,13 +396,11 @@ public class Interface {
 					System.out.println("\tAucun membre enregistré!!\n");
 					getMenuModifierPersonneEquipe().start();
 				}
-
 				return personnes;
 			}
 
 			@Override
 			public void elementSelectionne(int indice, Personne element) {
-				DB.Req.addToEquipe(element,equipe );
 				equipe.add(element);
 			}
 
@@ -539,19 +427,16 @@ public class Interface {
 				for (Candidat candidat : inscript.getCandidats())
 					if (candidat instanceof Personne)
 						personnes.add((Personne) candidat);
-				if (personnes.isEmpty()) {
-					System.out.println("\tAucune Personne Enregistrée\n");
-					getMenuPersonne().start();
-				}
 				return personnes;
 			}
 
 			@Override
 			public void elementSelectionne(int indice, Personne element) {
-			
-				System.out.println("SELECTION :" + element.getPrenom()+" "+element.getNom());
+				System.out.println("\tvous avez selectionné " + element
+						+ " à l'indice\n" + indice);
 				element.delete();
-				System.out.println("Suppression effectuée");
+				System.out.println("\tle membre " + element.getNom()
+						+ " a bien été supprimé\n");
 
 			}
 
@@ -599,6 +484,7 @@ public class Interface {
 				// TODO Auto-generated method stub
 				
 			}
+
 		};
 	}
 
@@ -642,8 +528,6 @@ public class Interface {
 							+ "\n\t\telles se déroulent en\t" + stat + "\n\n");
 					count++;
 				}
-				//if (db)
-					inscript.getCompetitions();
 			}
 		};
 	}
@@ -665,7 +549,7 @@ public class Interface {
 				boolean enEquipe = (utilitaires.EntreesSorties
 						.getString("en Equipe?")).matches("true|1|vrai|oui") ? true
 						: false;
-				inscript.createCompetition(nom, date, enEquipe,true);
+				inscript.createCompetition(nom, date, enEquipe);
 			}
 		};
 	}
@@ -704,6 +588,7 @@ public class Interface {
 				// TODO Auto-generated method stub
 				
 			}
+
 		};
 	}
 
@@ -811,7 +696,6 @@ public class Interface {
 				// TODO Auto-generated method stub
 				
 			}
-
 		};
 	}
 
@@ -824,28 +708,28 @@ public class Interface {
 	}
 
 	static Option getOptionListeEquipe(Competition comp) {
-		Liste<Personne> equipes = new Liste<Personne>("Listes Equipes", "LE",
+		Liste<Equipe> equipes = new Liste<Equipe>("Listes Equipes", "LE",
 				getActionListerEquipe(comp));
 		return equipes;
 	}
 
-	static ActionListe<Personne> getActionListerEquipe(Competition comp) {
-		return new ActionListe<Personne>() {
+	static ActionListe<Equipe> getActionListerEquipe(Competition comp) {
+		return new ActionListe<Equipe>() {
 
 			@Override
-			public List<Personne> getListe() {
-				ArrayList<Personne> equi = new ArrayList<Personne>();
+			public List<Equipe> getListe() {
+				ArrayList<Equipe> equi = new ArrayList<Equipe>();
 				for (Candidat p : inscript.getCandidats())
-					if (p instanceof Personne
+					if (p instanceof Equipe
 							&& !(comp.getCandidats().contains(p)))
-						equi.add((Personne) p);
+						equi.add((Equipe) p);
 				if (equi.isEmpty())
 					System.out.println("Aucune Equipe enregistrée");
 				return equi;
 			}
 
 			@Override
-			public void elementSelectionne(int indice, Personne element) {
+			public void elementSelectionne(int indice, Equipe element) {
 				if (comp.add(element)) {
 					System.out.println("\tL'équipe " + element.getNom()
 							+ " est maintenant inscrite à la compétition "
@@ -894,7 +778,7 @@ public class Interface {
 						count++;
 					}
 				for (Candidat e : inscript.getCandidats())
-					if (e instanceof Personne) {
+					if (e instanceof Equipe) {
 						System.out
 								.println(count
 										+ "- L'équipe: <<"
@@ -911,7 +795,7 @@ public class Interface {
 	}
 
 	public static String NomEquipes(Personne c) {
-		String msg = " ";
+		String msg = "";
 		for (Equipe e : c.getEquipes())
 			msg = msg + e.getNom() + "; ";
 		return msg;
@@ -919,7 +803,7 @@ public class Interface {
 
 	public static String NomMembres(Equipe e) {
 		String ch = " ";
-		for (Personne p : e.getMembres())
+		for (Personne p : ((Equipe) e).getMembres())
 			ch = ch + p.getNom() + p.getPrenom() + p.getMail();
 		return ch;
 	}
@@ -935,10 +819,12 @@ public class Interface {
 		if (e instanceof Personne)
 			return ((Personne) (e)).getNom() + " "
 					+ ((Personne) (e)).getPrenom();
-		return ((Personne) (e)).getNom();
+		return ((Equipe) (e)).getNom();
 	}
 
 	public static void main(String[] args) {
-		getMenuPrincipal().start();
+		Menu menu = getMenuPrincipal();
+		menu.start();
 	}
+
 }

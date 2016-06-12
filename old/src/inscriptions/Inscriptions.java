@@ -6,16 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import utilitaires.ligneDeCommande.Menu;
 import DB.Req;
-import InterfaceUtilisateur.Interface;
 
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription permet
@@ -43,7 +39,7 @@ public class Inscriptions implements Serializable {
 
 	public void setdb(boolean db) {
 		System.out.println("chgt de valeur");
-		this.db = db;
+		// this.db = db;
 	}
 
 	/**
@@ -55,27 +51,15 @@ public class Inscriptions implements Serializable {
 	 * Retourne toutes les personnes.
 	 * 
 	 * @return
-	 */	
-
-	//String persList[] = new String[bdd. *xxx*()+1];
-	
-	//for (int i = 0; i < persList.length; i++) 
-	//{
-	//	persList[i] = bdd. *xxx*(i);
-	//  return persList;
-	//}
-	// 
+	 */
 
 	public SortedSet<Personne> getPersonnes() {
-
-	SortedSet<Personne> personnes = new TreeSet<>();
+		SortedSet<Personne> personnes = new TreeSet<>();
 		for (Candidat c : getCandidats())
-		{
 			if (c instanceof Personne)
 				personnes.add((Personne) c);
-		}
 		return Collections.unmodifiableSortedSet(personnes);
-}
+	}
 
 	/**
 	 * Retourne toutes les équipes.
@@ -85,6 +69,8 @@ public class Inscriptions implements Serializable {
 
 	public SortedSet<Equipe> getEquipes()
 	{
+		if (db)
+			DB.Req.chargeEquipes(inscriptions);
 
 		SortedSet<Equipe> equipes = new TreeSet<>();
 		for (Candidat c : getCandidats())
@@ -94,10 +80,103 @@ public class Inscriptions implements Serializable {
 	}
 
 	
-	public SortedSet<Competition> getCompetitions() {
+	public SortedSet<Competition> getCompetitions()
+	{
+//		System.out.println("db = " + db);
+//		if (db) 
+//		{
+		
+//		String afficheComp= "Select * from Competition;";
+//		ResultSet res =DB.Base.connexionQuery(afficheComp);
+//		SortedSet<Competition> tab = new TreeSet<Competition>();
+		//Competition competition = new Competition(this, res.getString("nomCompetition"), res.getString("dateCloture")dateCloture, enEquipe);
+//		try {
+//			
+//			Competition test;
+//			System.out.println("avant");
+//			while(res.next()) {
+//				test=  new Competition(this, res.getString("nomCompetition"), LocalDate.parse(res.getString("dateCloture")), res.getBoolean("enEquipe"));
+//				if (test.getDateCloture() == null)
+//					System.out.println("achtung ! la date est nulle !!!!");
+//				else
+//					System.out.println("OK");
+//				tab.add(test);
+//			}
+//			System.out.println("après");
+//
+//				return tab;
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			//System.out.println( e.getMessage() );
+//		}
+//		return tab;
+//	}
+//		
+//		else
+//		{
+//			return Collections.unmodifiableSortedSet(competitions);
+//		}
+		
+/*		if (db){
+		String recupComp= "Select * from Competition;";
+		ResultSet result = DB.Base.connexionQuery(recupComp);
+		SortedSet<Competition> tab = new TreeSet<Competition>();
+			try{
+					while (result.next()){
+						Competition c = new Competition(this, result.getString(1), LocalDate.parse(result.getString(2)), result.getBoolean(3));
+						tab.add(c);
+					}
+					return tab;	
+			}
+			catch(SQLException e){
+=======
 
+	public SortedSet<Competition> getCompetitions() {
+		if (db) {
+
+			String afficheComp = "Select * from Competition;";
+			ResultSet res = DB.Base.connexionQuery(afficheComp);
+			SortedSet<Competition> tab = new TreeSet<Competition>();
+			// Competition competition = new Competition(this,
+			// res.getString("nomCompetition"),
+			// res.getString("dateCloture")dateCloture, enEquipe);
+			try {
+
+				Competition test;
+				System.out.println("avant");
+				while (res.next()) {
+					test = new Competition(this,
+							res.getString("nomCompetition"),
+							LocalDate.parse(res.getString("dateCloture")),
+							res.getBoolean("enEquipe"));
+					if (test.getDateCloture() == null)
+						System.out.println("achtung ! la date est nulle !!!!");
+					else
+						System.out.println("OK");
+					tab.add(test);
+				}
+				System.out.println("après");
+
+				return tab;
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+>>>>>>> branch 'master' of https://github.com/LaidySIO/PPE.git
+				e.printStackTrace();
+				// System.out.println( e.getMessage() );
+			}
+			return tab;
+		}
+
+		else {
+			return Collections.unmodifiableSortedSet(competitions);
+		}
+<<<<<<< HEAD
+*/
+	
 		return Collections.unmodifiableSortedSet(competitions);
-		 
 	}
 
 	/**
@@ -124,15 +203,11 @@ public class Inscriptions implements Serializable {
 
 	
 	public Competition createCompetition(String nom, 
-			LocalDate dateCloture, boolean enEquipe,boolean bool)
+			LocalDate dateCloture, boolean enEquipe)
 	{
-		if (bool){
-			if (db)
+		if (db)
 		DB.Req.addComp(nom, dateCloture, enEquipe);
-		System.out.println("La competition " +nom+  " a été rajouté à la communauté" );
-		}
 		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
-		
 		competitions.add(competition);
 		return competition;
 
@@ -148,12 +223,9 @@ public class Inscriptions implements Serializable {
 	 * @return
 	 */
 
-	public Personne createPersonne(String nom, String prenom, String mail, boolean bool) {
-		if (bool){
-			if(db)
+	public Personne createPersonne(String nom, String prenom, String mail) {
+		if (db)
 			DB.Req.addPers(nom, prenom, mail);
-			System.out.println("La personne " +prenom+ " " +nom+ " a été rajouté à la communauté" );
-		}
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
 		return personne;
@@ -171,28 +243,12 @@ public class Inscriptions implements Serializable {
 	 */
 
 	
-//	public Equipe createEquipe(String nom, boolean bool)
-//	{
-//		System.out.println("test insert equipe au chargement");
-//		if (bool) 
-//			if(db)
-//			DB.Req.addEqui(nom);
-//		Equipe equipe = new Equipe(this, nom);
-//		System.out.println("L'équipe  " +nom+ " a été rajouté à la communauté" );
-//		candidats.add(equipe);
-//		return equipe;
-//		return createEquipe(nom, bool, null);
-//	}
-	
-	public Equipe createEquipe (String nom, boolean bool,Personne entraineur)
+	public Equipe createEquipe(String nom)
 	{
-		
-		if (bool) {
-			if(db)
-				DB.Req.addEqui(nom);
-				System.out.println("L'équipe " +nom+ " a été rajoutée à la communauté");
-		}
-		Equipe equipe = new Equipe(this, nom, entraineur);
+		if (db)
+			DB.Req.addEqui(nom);
+
+		Equipe equipe = new Equipe(this, nom);
 		candidats.add(equipe);
 		return equipe;
 	}
@@ -207,7 +263,8 @@ public class Inscriptions implements Serializable {
 	void remove(Competition competition)
 	{
 		if (db)
-			DB.Req.suppComp(competition.getNom());
+			DB.Req.suppComp(competition.getNom(), competition.getDateCloture(), competition.estEnEquipe());
+
 		competitions.remove(competition);
 	}
 
@@ -218,12 +275,13 @@ public class Inscriptions implements Serializable {
 	 * @param candidat
 	 */
 
-	void remove(Candidat candidat, boolean bool)
+	
+	void remove(Candidat candidat)
 	{
-		if (bool)
-			if (db)
-				DB.Req.suppCand(candidat.getNom());
-			candidats.remove(candidat);
+		if (db)
+			DB.Req.suppCand(candidat.getNom());
+
+		candidats.remove(candidat);
 	}
 
 	/**
@@ -294,21 +352,19 @@ public class Inscriptions implements Serializable {
 
 	public static void main(String[] args) {
 		Inscriptions inscriptions = Inscriptions.getInscriptions(false);
-
-
-		Interface.getMenuPrincipal().start();
-
 		LocalDate localDate = LocalDate.of(2016, 03, 05);
 		Competition flechettes = inscriptions.createCompetition(
-				"Mondial de fléchettes", localDate, false,false);
+				"Mondial de fléchettes", localDate, false);
 		Personne tony = inscriptions.createPersonne("Tony", "Dent de plomb",
-				"azerty",false), boris = inscriptions.createPersonne("Boris",
-				"le Hachoir", "ytreza",false);
+				"azerty"), boris = inscriptions.createPersonne("Boris",
+				"le Hachoir", "ytreza");
 		flechettes.add(tony);
-		Equipe lesManouches = inscriptions.createEquipe("Les Manouches",false,null);
+		Equipe lesManouches = inscriptions.createEquipe("Les Manouches");
 		lesManouches.add(boris);
 		lesManouches.add(tony);
-
+		// System.out.println(inscriptions);
+		// lesManouches.delete();
+		// System.out.println(inscriptions);
 		try {
 			inscriptions.sauvegarder();
 		} catch (IOException e) {

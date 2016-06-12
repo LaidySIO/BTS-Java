@@ -35,7 +35,7 @@ import inscriptions.*;
 
 public class testCompetition {
 
-	Inscriptions inscriptions = Inscriptions.getInscriptions(true);
+	Inscriptions inscriptions = Inscriptions.getInscriptions();
 	Competition competition = inscriptions.createCompetition("Balalaia", LocalDate.now(), false);
 	Competition competrition = inscriptions.createCompetition("Visionnage de Cassettes", LocalDate.now(), true);
 	Personne personne = inscriptions.createPersonne("Maria", "pilaf", "test@test.com");
@@ -81,7 +81,7 @@ public class testCompetition {
 	//Test AddEquipe
 	@Test
 	public void testAddEquipe() {
-		Set<Candidat> candidats = competition.getCandidats();
+		Set<Candidat> candidats = competrition.getCandidats();
 		Equipe fly = inscriptions.createEquipe("Fly - Forces libérées yaourt");
 		competrition.add(fly);
 		assertTrue(candidats.contains(fly));
